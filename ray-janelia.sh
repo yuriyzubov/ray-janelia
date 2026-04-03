@@ -58,9 +58,9 @@ function wait_for_nodes()
         STATUS_RC=$?
 
         if [ $STATUS_RC -ne 0 ]; then
-            echo "Cluster status command failed with exit code $STATUS_RC"
-            shutdown_cluster
-            exit 1
+            echo "Waiting for cluster to become available..."
+            sleep $SLEEP_DELAY_SEC
+            continue
         fi
 
         num_ready=$(echo "$STATUS_OUTPUT" | awk '/Healthy:/{ f = 1; next } /Pending:/{ f = 0 } f' | wc -l)
@@ -111,6 +111,7 @@ else
     eval "$($CONDA shell.bash hook)"
     conda activate $conda_env
     echo "Activated conda environment: $conda_env"
+    export PYTHONNOUSERSITE=1
 fi
 
 hosts=()
