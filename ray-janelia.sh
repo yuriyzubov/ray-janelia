@@ -54,7 +54,7 @@ function wait_for_nodes()
             exit 1
         fi
 
-        STATUS_OUTPUT=$($status_cmd 2>/dev/null)
+        STATUS_OUTPUT=$($status_cmd 2>&1)
         STATUS_RC=$?
 
         if [ $STATUS_RC -ne 0 ]; then
@@ -63,7 +63,7 @@ function wait_for_nodes()
             continue
         fi
 
-        num_ready=$(echo "$STATUS_OUTPUT" | awk '/Healthy:/{ f = 1; next } /Pending:/{ f = 0 } f' | wc -l)
+        num_ready=$(echo "$STATUS_OUTPUT" | awk '/Healthy:|Active:/{ f = 1; next } /Pending:/{ f = 0 } f' | wc -l)
         if [ $_num_nodes -eq $num_ready ]; then
             echo "Cluster is ready with $num_ready nodes"
             return 0
