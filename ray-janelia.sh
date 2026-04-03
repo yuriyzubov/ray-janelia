@@ -54,7 +54,7 @@ function wait_for_nodes()
             exit 1
         fi
 
-        STATUS_OUTPUT=$($status_cmd)
+        STATUS_OUTPUT=$($status_cmd 2>/dev/null)
         STATUS_RC=$?
 
         if [ $STATUS_RC -ne 0 ]; then
