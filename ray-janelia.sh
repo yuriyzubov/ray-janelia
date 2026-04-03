@@ -127,6 +127,8 @@ echo "Head node will use port: " $port
 export port
 dashboard_port=$(get_free_port)
 echo "Dashboard will use port: " $dashboard_port
+client_server_port=$(get_free_port)
+echo "Client server will use port: " $client_server_port
 echo
 
 IFS=' ' read -r -a array <<< "$LSB_MCPU_HOSTS"
@@ -152,7 +154,6 @@ num_gpu_for_worker=0
 
 export head_node=${hosts[0]}
 cluster_address="$head_node:$port"
-client_server_port=10001
 
 echo "Starting Ray head node on $head_node"
 
